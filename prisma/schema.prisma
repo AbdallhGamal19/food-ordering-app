@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique
+  password     String
+  name         String
+  image        String?  
+  phone        String?  
+  streetAddress String?  
+  postalCode   String?  
+  city         String?  
+  country      String?  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders  OrderProduct[]
+}
+model Order {
+   id        String @id @default(auto()) @map("_id") @db.ObjectId
+  paid          Boolean        @default(false)
+  subTotal      Float
+  deliveryFee   Float
+  totalPrice    Float
+  userEmail     String
+  phone         String
+  streetAddress String
+  postalCode    String
+  city          String
+  country       String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  products      OrderProduct[]
+}
+
+model Category {
+id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  order     Int      @default(0)
+  products  Product[]
+}
+
+model Product {
+ id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  image       String
+  order       Int
+  basePrice   Float
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  sizes       Size[]
+  extras      Extra[]
+  orders      OrderProduct[]
+  category    Category    @relation(fields: [categoryId], references: [id])
+  categoryId  String   @db.ObjectId
+}
+
+model OrderProduct {
+id        String @id @default(auto()) @map("_id") @db.ObjectId
+  quantity  Int
+
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String   @db.ObjectId
+
+  user      User?   @relation(fields: [userId], references: [id])
+  userId String   @db.ObjectId
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+}
+
+
+
+
+model Size {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      ProductSizes
+  price     Float
+  product   Product      @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+}
+
+model Extra {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      ExtraIngredients
+  price     Float
+  product   Product          @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+}
+
+enum ProductSizes {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum ExtraIngredients {
+  CHEESE
+  BACON
+  TOMATO
+  ONION
+  PEPPER
+}
+
