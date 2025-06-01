@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Link from "../../Link/index";
+import Link from "../Link/index";
 import { ShoppingCartIcon } from "lucide-react";
 import { Routes } from "../../constance/enums";
 import { getCartQuantity } from "../../lib/cart";

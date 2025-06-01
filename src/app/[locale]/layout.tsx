@@ -1,17 +1,24 @@
-import "./globals.css";
-import Header from "../../components/header/index";
-import Footer from "../../components/footer/index";
-import ReduxProvider from "../../provider/ReduxProvider";
-import { Directions, Languages } from "../../constance/enums";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import { Directions, Languages } from "@/constance/enums";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import { LocaleType } from "../../i18n.config";
-export const generateStaticParams = async () => [
-  { locale: Languages.ENGLISH },
-  { locale: Languages.ARABIC },
-];
+import { Cairo, Roboto } from "next/font/google";
+import { LocaleType } from "@/i18n.config";
+import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import NextAuthSessionProvider from "../../provider/NextAuthSessionProvider";
+import ReduxProvider from "../../provider/ReduxProvider";
+export async function generateStaticParams() {
+  return [{ locale: Languages.ARABIC }, { locale: Languages.ENGLISH }];
+}
 
 const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  preload: true,
+});
+
+const cairo = Cairo({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   preload: true,
@@ -23,8 +30,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-  children,
   params,
+  children,
 }: Readonly<{
   children: React.ReactNode;
   params: Promise<{ locale: LocaleType }>;
@@ -35,13 +42,19 @@ export default async function RootLayout({
       lang={locale}
       dir={locale === Languages.ARABIC ? Directions.RTL : Directions.LTR}
     >
-      <body className={roboto.className}>
-        {" "}
-        <ReduxProvider>
-          <Header />
-          {children}
-          <Footer />
-        </ReduxProvider>
+      <body
+        className={
+          locale === Languages.ARABIC ? cairo.className : roboto.className
+        }
+      >
+        <NextAuthSessionProvider>
+          <ReduxProvider>
+            <Header />
+            {children}
+            <Footer />
+            <Toaster />
+          </ReduxProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

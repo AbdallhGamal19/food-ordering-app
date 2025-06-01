@@ -1,40 +1,100 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
-import { i18n, LanguagesType } from "./i18n.config";
 import Negotiator from "negotiator";
+import { i18n, LanguagesType, LocaleType } from "./i18n.config";
+import { withAuth } from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
+import { Pages, Routes } from "./constance/enums";
+import { UserRole } from "@prisma/client";
 
 function getLocale(request: NextRequest): string | undefined {
-  const negotiatorHeader: Record<string, string> = {};
-  request.headers.forEach((value, key) => (negotiatorHeader[key] = value));
+  const negotiatorHeaders: Record<string, string> = {};
+  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
+
   const locales: LanguagesType[] = i18n.locales;
-  const Languages = new Negotiator({ headers: negotiatorHeader }).languages();
+  const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
   let locale = "";
+
   try {
-    locale = matchLocale(Languages, locales, i18n.defultLocale);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+    locale = matchLocale(languages, locales, i18n.defultLocale);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   } catch (error: any) {
-    console.log(error);
     locale = i18n.defultLocale;
   }
   return locale;
 }
 
-export function middleware(request: NextRequest) {
-  const requestHeader = new Headers(request.headers);
-  requestHeader.set("x-url", request.url);
-  const pathname = request.nextUrl.pathname;
+export default withAuth(
+  async function middleware(request: NextRequest) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-url", request.url);
 
-  const pathnameIsMissingLocale = i18n.locales.every(
-    (locale) => !pathname.startsWith(`/${locale}`)
-  );
-  if (pathnameIsMissingLocale) {
-    const locale = getLocale(request);
+    const response = NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
 
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
+    const pathname = request.nextUrl.pathname;
+
+    const pathnameIsMissingLocale = i18n.locales.every(
+      (locale) => !pathname.startsWith(`/${locale}`)
+    );
+    // Redirect if there is no locale
+    if (pathnameIsMissingLocale) {
+      const locale = getLocale(request);
+      return NextResponse.redirect(
+        new URL(`/${locale}${pathname}`, request.url)
+      );
+    }
+    const currentLocale = request.url.split("/")[3] as LocaleType;
+    const isAuth = await getToken({ req: request });
+    const isAuthPage = pathname.startsWith(`/${currentLocale}/${Routes.AUTH}`);
+    const protectedRoutes = [Routes.PROFILE, Routes.ADMIN];
+    const isProtectedRoute = protectedRoutes.some((route) =>
+      pathname.startsWith(`/${currentLocale}/${route}`)
+    );
+    // if user not loggedin and try to acess protected route
+    if (!isAuth && isProtectedRoute) {
+      return NextResponse.redirect(
+        new URL(`/${currentLocale}/${Routes.AUTH}/${Pages.LOGIN}`, request.url)
+      );
+    }
+    // if user loggedin and try to acess auth routes
+    if (isAuthPage && isAuth) {
+      const role = isAuth.role;
+      if (role === UserRole.ADMIN) {
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}/${Routes.ADMIN}`, request.url)
+        );
+      }
+      return NextResponse.redirect(
+        new URL(`/${currentLocale}/${Routes.PROFILE}`, request.url)
+      );
+    }
+    // if user loggedin and he isn't admin and try to acess admin route
+    if (isAuth && pathname.startsWith(`/${currentLocale}/${Routes.ADMIN}`)) {
+      const role = isAuth.role;
+      if (role !== UserRole.ADMIN) {
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}/${Routes.PROFILE}`, request.url)
+        );
+      }
+    }
+    return response;
+  },
+  {
+    callbacks: {
+      authorized() {
+        return true;
+      },
+    },
   }
-  return NextResponse.next({ request: { headers: requestHeader } });
-}
+);
+
 export const config = {
+  // Matcher ignoring `/_next/`, `/api/`, ..etc
   matcher: [
     "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
   ],

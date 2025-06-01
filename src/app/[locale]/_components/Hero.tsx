@@ -6,7 +6,7 @@ import { ArrowRightCircle } from "lucide-react";
 import Image from "next/image";
 import getDictionary from "../../../lib/dictionaries";
 import { Languages, Routes } from "../../../constance/enums";
-import Link from "../../../Link/index";
+import Link from "../../../components/Link/index";
 
 async function Hero() {
   const locale = await getCurrentLocale();
