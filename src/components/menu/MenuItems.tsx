@@ -5,7 +5,10 @@ import AddToCardButton from "../add-to-card-button/index";
 import { productWithRelations } from "../../lib/types";
 function MenuItem({ item }: { item: productWithRelations }) {
   return (
-    <li className="">
+    <li
+      className="p-6 rounded-lg text-center
+    group hover:bg-white hover:shadow-md hover:shadow-black/25 transition-all"
+    >
       <div className="text-center bg-opacity-70 hover:bg-opacity-100 transition-all duration-200 bg-gray-200 px-5 py-3 rounded-lg ">
         <div className="relative w-48 h-48 mx-auto ">
           <Image

@@ -1,4 +1,4 @@
-import { Routes } from "../../constance/enums";
+import { Routes } from "../../constants/enums";
 import getDictionary from "../../lib/dictionaries";
 import { getCurrentLocale } from "../../lib/getCurrentLocale";
 import MainHeading from "../mainHeading/index";

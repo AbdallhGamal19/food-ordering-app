@@ -2,7 +2,7 @@
 
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { Languages } from "../../constance/enums";
+import { Languages } from "../../constants/enums";
 
 const LanguageSwitcher = () => {
   const router = useRouter();

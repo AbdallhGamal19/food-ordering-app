@@ -11,7 +11,7 @@ import { signIn } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import Loader from "../../../../../components/ui/loader";
-import { Pages, Routes } from "../../../../../constance/enums";
+import { Pages, Routes } from "../../../../../constants/enums";
 
 function Form({ translations }: { translations: Translations }) {
   const router = useRouter();

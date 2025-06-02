@@ -1,5 +1,5 @@
 "use server";
-import { Pages, Routes } from "@/constance/enums";
+import { Pages, Routes } from "@/constants/enums";
 import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import { db } from "@/lib/prisma";
 import getDictionary from "@/lib/dictionaries";

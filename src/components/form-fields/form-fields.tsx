@@ -1,4 +1,4 @@
-import { InputTypes } from "@/constance/enums";
+import { InputTypes } from "@/constants/enums";
 import TextField from "./text-field";
 import PasswordField from "./password-field";
 import { IFormField } from "@/types/app";

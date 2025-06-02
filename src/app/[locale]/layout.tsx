@@ -1,6 +1,6 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import { Directions, Languages } from "@/constance/enums";
+import { Directions, Languages } from "@/constants/enums";
 import type { Metadata } from "next";
 import { Cairo, Roboto } from "next/font/google";
 import { LocaleType } from "@/i18n.config";

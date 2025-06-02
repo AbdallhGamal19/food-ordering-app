@@ -1,6 +1,6 @@
 import "server-only";
 import { LocaleType } from "../i18n.config";
-import { Languages } from "../constance/enums";
+import { Languages } from "../constants/enums";
 
 const dictionaries = {
   en: () => import("../dictionaries/en.json").then((module) => module.default),

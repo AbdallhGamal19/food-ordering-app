@@ -1,5 +1,5 @@
 import { buttonVariants } from "@/components/ui/button";
-import { Pages, Routes } from "../../../../constance/enums";
+import { Pages, Routes } from "../../../../constants/enums";
 import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import Form from "./_components/Form";
 import getTrans from "../../../../lib/dictionaries";

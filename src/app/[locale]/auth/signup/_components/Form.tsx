@@ -3,7 +3,7 @@
 import FormFields from "@/components/form-fields/form-fields";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
-import { Pages, Routes } from "@/constance/enums";
+import { Pages, Routes } from "@/constants/enums";
 import { toast } from "@/hooks/use-toast";
 import useFormFields from "@/hooks/useFormFields";
 import { signup } from "@/server/_actions/auth";

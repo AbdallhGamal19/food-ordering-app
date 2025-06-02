@@ -1,4 +1,4 @@
-import { Environments, Pages, Routes } from "@/constance/enums";
+import { Environments, Pages, Routes } from "@/constants/enums";
 import { DefaultSession, type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";

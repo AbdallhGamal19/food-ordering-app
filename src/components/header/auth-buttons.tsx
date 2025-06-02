@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 import { Button } from "../ui/button";
 import { Translations } from "@/types/translations";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { Pages, Routes } from "@/constance/enums";
+import { Pages, Routes } from "@/constants/enums";
 
 import { Session } from "next-auth";
 import { useClientSession } from "../../hooks/useClientSession";

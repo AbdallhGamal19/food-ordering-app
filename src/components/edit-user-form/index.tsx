@@ -1,5 +1,5 @@
 "use client";
-import { InputTypes, Routes } from "@/constance/enums";
+import { InputTypes, Routes } from "@/constants/enums";
 import useFormFields from "@/hooks/useFormFields";
 import { IFormField } from "@/types/app";
 import { Translations } from "@/types/translations";

@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "../Link/index";
 import { ShoppingCartIcon } from "lucide-react";
-import { Routes } from "../../constance/enums";
+import { Routes } from "../../constants/enums";
 import { getCartQuantity } from "../../lib/cart";
 import { useAppSelector } from "../../redux/hooks";
 import { selectCartItems } from "../../redux/features/cart/cartSlice";

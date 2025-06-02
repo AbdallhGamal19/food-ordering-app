@@ -5,7 +5,7 @@ import { Label } from "../ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { ValidationErrors } from "@/validations/auth";
 import { useParams } from "next/navigation";
-import { Languages } from "@/constance/enums";
+import { Languages } from "@/constants/enums";
 
 interface Props extends IFormField {
   error: ValidationErrors;

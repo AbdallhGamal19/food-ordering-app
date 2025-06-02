@@ -94,7 +94,7 @@ model Product {
   name        String
   description String
   image       String
-  order       Int
+  order        Int  
   basePrice   Float
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -126,7 +126,7 @@ model Size {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   name      ProductSizes
   price     Float
-  product   Product      @relation(fields: [productId], references: [id])
+  product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String   @db.ObjectId
 }
 
@@ -134,7 +134,7 @@ model Extra {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   name      ExtraIngredients
   price     Float
-  product   Product          @relation(fields: [productId], references: [id])
+  product   Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String   @db.ObjectId
 }
 

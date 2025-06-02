@@ -5,7 +5,7 @@ import Negotiator from "negotiator";
 import { i18n, LanguagesType, LocaleType } from "./i18n.config";
 import { withAuth } from "next-auth/middleware";
 import { getToken } from "next-auth/jwt";
-import { Pages, Routes } from "./constance/enums";
+import { Pages, Routes } from "./constants/enums";
 import { UserRole } from "@prisma/client";
 
 function getLocale(request: NextRequest): string | undefined {

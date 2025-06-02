@@ -1,4 +1,4 @@
-import { Pages, Routes } from "../constance/enums";
+import { Pages, Routes } from "../constants/enums";
 import { IFormField, IFormFieldsVariables } from "../types/app";
 import { Translations } from "../types/translations";
 

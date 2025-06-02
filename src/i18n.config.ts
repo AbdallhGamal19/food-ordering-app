@@ -1,4 +1,4 @@
-import { Languages } from "./constance/enums";
+import { Languages } from "./constants/enums";
 
 export type LanguagesType = Languages.ENGLISH | Languages.ARABIC;
 type i18nType = {

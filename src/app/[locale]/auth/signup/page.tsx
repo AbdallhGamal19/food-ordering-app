@@ -1,6 +1,6 @@
 import Link from "@/components/Link/index";
 import { buttonVariants } from "@/components/ui/button";
-import { Pages, Routes } from "@/constance/enums";
+import { Pages, Routes } from "@/constants/enums";
 import { LocaleType } from "@/i18n.config";
 import getdictionary from "@/lib/dictionaries";
 import Form from "./_components/Form";

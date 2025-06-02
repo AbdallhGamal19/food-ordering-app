@@ -1,5 +1,5 @@
 import EditUserForm from "@/components/edit-user-form";
-import { Pages, Routes } from "@/constance/enums";
+import { Pages, Routes } from "@/constants/enums";
 import { LocaleType } from "@/i18n.config";
 
 import { authOptions } from "@/server/auth";

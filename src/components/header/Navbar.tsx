@@ -1,6 +1,6 @@
 "use client";
 
-import { Routes } from "@/constance/enums";
+import { Routes } from "@/constants/enums";
 
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -10,8 +10,9 @@ import AuthButtons from "./auth-buttons";
 import LanguageSwitcher from "./language-switcher";
 import { Translations } from "@/types/translations";
 import { Session } from "next-auth";
-import { useClientSession } from "../../hooks/useClientSession";
-import Link from "../Link/index";
+import { useClientSession } from "@/hooks/useClientSession";
+import { UserRole } from "@prisma/client";
+import Link from "../Link";
 
 function Navbar({
   translations,
@@ -43,7 +44,7 @@ function Navbar({
       href: Routes.CONTACT,
     },
   ];
-  // const isAdmin = session.data?.user.role === UserRole.ADMIN;
+  const isAdmin = session.data?.user.role === UserRole.ADMIN;
   return (
     <nav className="order-last lg:order-none">
       <Button
@@ -86,14 +87,14 @@ function Navbar({
           <li>
             <Link
               href={
-                true
+                isAdmin
                   ? `/${locale}/${Routes.ADMIN}`
                   : `/${locale}/${Routes.PROFILE}`
               }
               onClick={() => setOpenMenu(false)}
               className={`${
                 pathname.startsWith(
-                  true
+                  isAdmin
                     ? `/${locale}/${Routes.ADMIN}`
                     : `/${locale}/${Routes.PROFILE}`
                 )
@@ -101,7 +102,9 @@ function Navbar({
                   : "text-accent"
               } hover:text-primary duration-200 transition-colors font-semibold`}
             >
-              {true ? translations.navbar.admin : translations.navbar.profile}
+              {isAdmin
+                ? translations.navbar.admin
+                : translations.navbar.profile}
             </Link>
           </li>
         )}
