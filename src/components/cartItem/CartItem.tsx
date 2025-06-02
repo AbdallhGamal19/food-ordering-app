@@ -24,14 +24,14 @@ const CartItem = () => {
           <ul>
             {cart.map((item) => (
               <li key={item.id}>
-                <div className="flex flex-col md:flex-row gap-6 justify-between ">
+                <div className="flex flex-col md:flex-row gap-6 justify-between">
                   <div className="flex items-center gap-2">
                     <div className="relative w-24 h-24">
                       <Image
                         src={item.image}
+                        className="object-contain"
                         alt={item.name}
                         fill
-                        className="object-contain"
                       />
                     </div>
                     <div>
@@ -44,8 +44,8 @@ const CartItem = () => {
                         )}
                         {item.extras && item.extras.length > 0 && (
                           <div className="flex gap-1">
-                            <span>Extars: </span>
-                            <ul className="list-disc list-inside">
+                            <span>Extras:</span>
+                            <ul>
                               {item.extras.map((extra) => (
                                 <li key={extra.id}>
                                   <span className="text-sm text-accent">
@@ -56,14 +56,14 @@ const CartItem = () => {
                             </ul>
                           </div>
                         )}
-                        <span className="absolute top-0 right-0 text-sm text-black">
-                          quantity:{item.quantity}
+                        <span className="absolute right-0 top-0 text-sm text-black">
+                          x{item.quantity}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div className=" flex flex-1 flex-col items-center justify-end gap-4">
-                    <strong className="text-black">
+                  <div className="flex-1 flex items-center gap-4 justify-end">
+                    <strong className="text-black ">
                       {formatCurrency(item.basePrice)}
                     </strong>
                     <Button
@@ -80,7 +80,7 @@ const CartItem = () => {
               </li>
             ))}
           </ul>
-          <div className="flex flex-col items-end justify-end pt-6">
+          <div className="flex flex-col justify-end items-end pt-6">
             <span className="text-accent font-medium">
               Subtotal:
               <strong className="text-black">{formatCurrency(subTotal)}</strong>
@@ -100,7 +100,7 @@ const CartItem = () => {
           </div>
         </>
       ) : (
-        <p className="text-accent">there are no items in your cart. Add some</p>
+        <p className="text-accent">There are no items in your cart. Add some</p>
       )}
     </div>
   );

@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatCurrency } from "@/lib/formatters";
 import { Checkbox } from "../ui/checkbox";
 import { Extra, ProductSizes, Size } from "@prisma/client";
+import { ProductWithRelations } from "@/types/product";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
@@ -25,11 +26,10 @@ import {
   selectCartItems,
 } from "@/redux/features/cart/cartSlice";
 import { getItemQuantity } from "@/lib/cart";
-import { productWithRelations } from "../../lib/types";
 
-function AddToCartButton({ item }: { item: productWithRelations }) {
+function AddToCartButton({ item }: { item: ProductWithRelations }) {
   const cart = useAppSelector(selectCartItems);
-  const quantity = getItemQuantity(cart, item.id);
+  const quantity = getItemQuantity(item.id, cart);
   const dispatch = useAppDispatch();
   const defaultSize =
     cart.find((element) => element.id === item.id)?.size ||
@@ -134,7 +134,7 @@ function PickSize({
 }: {
   sizes: Size[];
   selectedSize: Size;
-  item: productWithRelations;
+  item: ProductWithRelations;
   setSelectedSize: React.Dispatch<React.SetStateAction<Size>>;
 }) {
   return (
@@ -206,7 +206,7 @@ const ChooseQuantity = ({
   quantity: number;
   selectedExtras: Extra[];
   selectedSize: Size;
-  item: productWithRelations;
+  item: ProductWithRelations;
 }) => {
   const dispatch = useAppDispatch();
   return (
