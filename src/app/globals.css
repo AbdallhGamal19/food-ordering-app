@@ -92,8 +92,6 @@ html[lang="en"] div[role="dialog"] button {
   right: 24px !important;
 }
 
-
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
