@@ -13,14 +13,12 @@ async function SigninPage() {
       <div className="py-44 md:py-40 bg-gray-50 element-center">
         <div className="container element-center">
           <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-            <div className="">
-              <p>
-                Admin email : admin@admin.com <br /> password : admin123
-              </p>
-            </div>
             <h2 className="text-2xl font-semibold text-center text-black mb-4">
               {translations.auth.login.title}
             </h2>
+            <p className="text-center text-[12px] text-red-400">
+              Please login with this admin email to access all features
+            </p>
             <Form translations={translations} />
             <p className="mt-2 flex items-center justify-center text-accent text-sm">
               <span>{translations.auth.login.authPrompt.message}</span>
