@@ -23,7 +23,6 @@ const PasswordField = ({
   disabled,
   autoFocus,
   error,
-  defaultValue,
 }: Props) => {
   const [state, setState] = useState(INITIAL_STATE);
   const { showPassword } = state;
@@ -54,7 +53,7 @@ const PasswordField = ({
           autoComplete="off"
           name={name}
           id={name}
-          defaultValue={defaultValue}
+          defaultValue={"admin123"}
         />
 
         <button

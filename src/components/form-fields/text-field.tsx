@@ -31,7 +31,7 @@ const TextField = ({
         autoFocus={autoFocus}
         name={name}
         id={name}
-        defaultValue={defaultValue}
+        defaultValue={name === "email" ? "admin@admin.com" : defaultValue}
         readOnly={readOnly}
       />
       {error && error[name] && (
