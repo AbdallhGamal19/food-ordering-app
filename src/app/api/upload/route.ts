@@ -1,13 +1,12 @@
 import cloudinary from "@/lib/cloudinary";
-
 import { NextResponse } from "next/server";
 
-// Define the type for the form data file
 type FormDataFile = Blob & {
-  name?: string; // Optional: Some browsers may add this
+  name?: string;
 };
 
 export async function POST(request: Request) {
+  console.log("UPLOAD API HIT ✅");
   try {
     const formData = await request.formData();
     const file = formData.get("file") as FormDataFile | null;
@@ -16,22 +15,36 @@ export async function POST(request: Request) {
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
-    // Convert the file to a format Cloudinary can handle (Buffer or Base64)
+
+    if (!pathName) {
+      return NextResponse.json({ error: "Missing pathName" }, { status: 400 });
+    }
+
     const fileBuffer = await file.arrayBuffer();
     const base64File = Buffer.from(fileBuffer).toString("base64");
-    // Upload to Cloudinary
-    const uploadResponse = await cloudinary.uploader.upload(
-      `data:${file.type};base64,${base64File}`,
-      {
-        folder: pathName,
-        transformation: [
-          { width: 200, height: 200, crop: "fill", gravity: "face" },
-        ],
-      }
-    );
+
+    let uploadResponse;
+    try {
+      uploadResponse = await cloudinary.uploader.upload(
+        `data:${file.type};base64,${base64File}`,
+        {
+          folder: pathName,
+          transformation: [
+            { width: 200, height: 200, crop: "fill", gravity: "face" },
+          ],
+        }
+      );
+    } catch (uploadError) {
+      console.error("Cloudinary upload failed:", uploadError);
+      return NextResponse.json(
+        { error: "Failed to upload image to Cloudinary" },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({ url: uploadResponse.secure_url });
   } catch (error) {
-    console.error("Error uploading file to Cloudinary:", error);
+    console.error("Error uploading file:", error);
     return NextResponse.json(
       { error: "Failed to upload image" },
       { status: 500 }
