@@ -7,6 +7,7 @@ import { addProductSchema, updateProductSchema } from "@/validations/product";
 import { Extra, ExtraIngredients, ProductSizes, Size } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import getDictionary from "../../../../../lib/dictionaries";
+import { headers } from "next/headers";
 
 export const addProduct = async (
   args: {
@@ -188,18 +189,20 @@ export const updateProduct = async (
 };
 
 const getImageUrl = async (imageFile: File) => {
+  const headersList = headers();
+  const protocol = (await headersList).get("x-forwarded-proto") || "http";
+  const host = (await headersList).get("host");
+  const baseUrl = `${protocol}://${host}`;
+  const uploadApiUrl = `${baseUrl}/api/upload`;
   const formData = new FormData();
   formData.append("file", imageFile);
   formData.append("pathName", "product_images");
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(uploadApiUrl, {
+      method: "POST",
+      body: formData,
+    });
     console.log(response);
     const image = (await response.json()) as { url: string };
     return image.url;

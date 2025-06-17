@@ -6,6 +6,7 @@ import getDictionary from "@/lib/dictionaries";
 import { updateProfileSchema } from "@/validations/profile";
 import { UserRole } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
 export const updateProfile = async (
   isAdmin: boolean,
@@ -73,18 +74,20 @@ export const updateProfile = async (
 };
 
 const getImageUrl = async (imageFile: File) => {
+  const headersList = headers();
+  const protocol = (await headersList).get("x-forwarded-proto") || "http";
+  const host = (await headersList).get("host");
+  const baseUrl = `${protocol}://${host}`;
+  const uploadApiUrl = `${baseUrl}/api/upload`;
   const formData = new FormData();
   formData.append("file", imageFile);
   formData.append("pathName", "profile_images");
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(uploadApiUrl, {
+      method: "POST",
+      body: formData,
+    });
     const image = (await response.json()) as { url: string };
     return image.url;
   } catch (error) {
