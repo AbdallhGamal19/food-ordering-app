@@ -41,7 +41,7 @@ export const addProduct = async (
   const imageUrl = Boolean(imageFile.size)
     ? await getImageUrl(imageFile)
     : undefined;
-
+  console.log("imageUrl:", imageUrl);
   try {
     if (imageUrl) {
       const product = await db.product.create({
@@ -203,11 +203,18 @@ const getImageUrl = async (imageFile: File) => {
       method: "POST",
       body: formData,
     });
-    console.log(response);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Upload failed:", response.status, errorText);
+      return undefined;
+    }
+
     const image = (await response.json()) as { url: string };
     return image.url;
   } catch (error) {
     console.error("Error uploading file to Cloudinary:", error);
+    return undefined;
   }
 };
 
