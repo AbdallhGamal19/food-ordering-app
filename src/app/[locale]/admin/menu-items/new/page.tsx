@@ -26,7 +26,7 @@ async function NewProductPage() {
   }
   return (
     <main>
-      {process.env.NODE_ENV === Environments.PROD && (
+      {process.env.NODE_ENV !== Environments.DEV && (
         <div className="flex justify-center mt-2">
           <h2 className="text-red-500 text-center  w-1/2">
             We&apos;re sorry, you can&apos;t add the product in production mode
