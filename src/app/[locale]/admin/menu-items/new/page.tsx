@@ -24,6 +24,8 @@ async function NewProductPage() {
   if (!categories || categories.length === 0) {
     redirect(`/${locale}/${Routes.ADMIN}/${Pages.CATEGORIES}`);
   }
+  console.log("moooooooooooooode", process.env.NODE_ENV);
+
   return (
     <main>
       {process.env.NODE_ENV !== Environments.DEV && (
