@@ -6,8 +6,8 @@ import { Cairo, Roboto } from "next/font/google";
 import { LocaleType } from "@/i18n.config";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import NextAuthSessionProvider from "../provider/NextAuthSessionProvider";
-import ReduxProvider from "../provider/ReduxProvider";
+import NextAuthSessionProvider from "../../provider/NextAuthSessionProvider";
+import ReduxProvider from "../../provider/ReduxProvider";
 export async function generateStaticParams() {
   return [{ locale: Languages.ARABIC }, { locale: Languages.ENGLISH }];
 }

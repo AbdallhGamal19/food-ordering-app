@@ -2,7 +2,7 @@
 
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { Languages } from "../../constants/enums";
+import { Languages } from "@/constants/enums";
 
 const LanguageSwitcher = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <div className="flex mx-2">
+    <div className="flex">
       {locale === Languages.ARABIC ? (
         <Button
           variant="outline"
